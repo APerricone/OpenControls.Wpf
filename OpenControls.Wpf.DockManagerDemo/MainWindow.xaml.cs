@@ -55,6 +55,7 @@ namespace WpfDockManagerDemo
             }
 
             _layoutManager.Initialise();
+            LoadDefaultLayout();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

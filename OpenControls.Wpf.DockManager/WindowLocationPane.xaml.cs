@@ -11,44 +11,16 @@ namespace OpenControls.Wpf.DockManager
         {
             InitializeComponent();
         }
-
-        public WindowLocation TrySelectIndicator(Point cursorPositionOnScreen)
-        {
-            if (_buttonTop.InputHitTest(_buttonTop.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.Top;
-            }
-
-            if (_buttonLeft.InputHitTest(_buttonLeft.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.Left;
-            }
-
-            if (_buttonMiddle.InputHitTest(_buttonMiddle.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
+      const float _percentSelection = 0.20f;
+      public WindowLocation TrySelectIndicator(Point cursorPositionOnScreen) {
+         Point localPoint = PointFromScreen(cursorPositionOnScreen);
+         if (localPoint.X < Width * _percentSelection) return WindowLocation.Left;
+         if (localPoint.X > Width * (1- _percentSelection)) return WindowLocation.Right;
+         if (localPoint.Y < Height * _percentSelection) return WindowLocation.Top;
+         if (localPoint.Y > Height * (1 - _percentSelection)) return WindowLocation.Bottom;
                 return WindowLocation.Middle;
             }
 
-            if (_buttonRight.InputHitTest(_buttonRight.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.Right;
-            }
-
-            if (_buttonBottom.InputHitTest(_buttonBottom.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.Bottom;
-            }
-
-            return WindowLocation.None;
-        }
-
-        public void ShowIcons(WindowLocation windowLocations)
-        {
-            _buttonLeft.Visibility = windowLocations.HasFlag(WindowLocation.Left) ? Visibility.Visible : Visibility.Hidden;
-            _buttonTop.Visibility = windowLocations.HasFlag(WindowLocation.Top) ? Visibility.Visible : Visibility.Hidden;
-            _buttonRight.Visibility = windowLocations.HasFlag(WindowLocation.Right) ? Visibility.Visible : Visibility.Hidden;
-            _buttonBottom.Visibility = windowLocations.HasFlag(WindowLocation.Bottom) ? Visibility.Visible : Visibility.Hidden;
-            _buttonMiddle.Visibility = windowLocations.HasFlag(WindowLocation.Middle) ? Visibility.Visible : Visibility.Hidden;
-        }
+      public void ShowIcons(WindowLocation windowLocations) { }
     }
 }

@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
-namespace OpenControls.Wpf.DockManager
-{
+namespace OpenControls.Wpf.DockManager {
     /// <summary>
     /// Interaction logic for EdgeLocationPane.xaml
     /// </summary>
@@ -23,29 +10,13 @@ namespace OpenControls.Wpf.DockManager
         {
             InitializeComponent();
         }
-
-        public WindowLocation TrySelectIndicator(Point cursorPositionOnScreen)
-        {
-            if (_buttonTopEdge.InputHitTest(_buttonTopEdge.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.TopSide;
-            }
-
-            if (_buttonLeftEdge.InputHitTest(_buttonLeftEdge.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.LeftSide;
-            }
-
-            if (_buttonRightEdge.InputHitTest(_buttonRightEdge.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.RightSide;
-            }
-
-            if (_buttonBottomEdge.InputHitTest(_buttonBottomEdge.PointFromScreen(cursorPositionOnScreen)) != null)
-            {
-                return WindowLocation.BottomSide;
-            }
-
+        const float _percentSelection = 0.1f;
+        public WindowLocation TrySelectIndicator(Point cursorPositionOnScreen) {
+            Point localPoint = PointFromScreen(cursorPositionOnScreen);
+            if (localPoint.X < Width * _percentSelection) return WindowLocation.LeftSide;
+            if (localPoint.X > Width * (1-_percentSelection)) return WindowLocation.RightSide;
+            if (localPoint.Y < Height * _percentSelection) return WindowLocation.TopSide;
+            if (localPoint.Y > Height * (1-_percentSelection)) return WindowLocation.BottomSide;
             return WindowLocation.None;
         }
     }

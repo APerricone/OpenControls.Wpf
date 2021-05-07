@@ -58,6 +58,8 @@
     <Compile Include="DocumentContainer.cs" />
     <Compile Include="DocumentPaneGroup.cs" />
     <Compile Include="DocumentPanel.cs" />
+    <Compile Include="Events\ElementExtractedEventArgs.cs" />
+    <Compile Include="Events\ElementExtractedEventHandler.cs" />
     <Compile Include="Events\FloatEventArgs.cs" />
     <Compile Include="Events\FloatEventHandler.cs" />
     <Compile Include="Events\ItemClickEventArgs.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="IFloatingPaneManager.cs" />
     <Compile Include="ILayoutFactory.cs" />
     <Compile Include="InsertionIndicatorManager.cs" />
+    <Compile Include="InternalViewContainer.cs" />
     <Compile Include="ISelectablePane.cs" />
     <Compile Include="IUnpinnedToolHost.cs" />
     <Compile Include="IUnpinnedToolManager.cs" />

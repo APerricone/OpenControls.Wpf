@@ -85,6 +85,15 @@ namespace OpenControls.Wpf.DockManager
             IDockPaneHost.RemoveViewModel(e.UserControl.DataContext as IViewModel);
         }
 
+        private void DockPane_ElementExtracted(object sender, Events.ElementExtractedEventArgs e)
+        {
+            DockPane dockPane = (DockPane)sender;
+            if(dockPane.IViewContainer.GetUserControlCount()==0)
+            {
+                ExtractDockPane(dockPane, out FrameworkElement frameworkElement);
+            }
+        }
+
         private void DockPane_Ungroup(object sender, EventArgs e)
         {
             DockPane dockPane = sender as DockPane;
@@ -115,7 +124,7 @@ namespace OpenControls.Wpf.DockManager
         {
             if (!selectedTabOnly || (dockPane.IViewContainer.GetUserControlCount() == 1))
             {
-                ExtractDockPane(dockPane, out FrameworkElement frameworkElement);
+                //ExtractDockPane(dockPane, out FrameworkElement frameworkElement);
             }
 
             Point mainWindowLocation = Application.Current.MainWindow.PointToScreen(new Point(0, 0));
@@ -133,7 +142,7 @@ namespace OpenControls.Wpf.DockManager
             int index = selectedTabOnly ? dockPane.IViewContainer.SelectedIndex : 0;
             while (true)
             {
-                UserControl userControl = dockPane.IViewContainer.ExtractUserControl(index);
+                UserControl userControl = dockPane.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -146,6 +155,7 @@ namespace OpenControls.Wpf.DockManager
                     floatingPane.IViewContainer.SelectedIndex = 0;
                     break;
                 }
+                index++;
             }
 
             if (drag)
@@ -159,7 +169,7 @@ namespace OpenControls.Wpf.DockManager
             }
 
             Point cursorPositionOnScreen = Windows.ScaleByDpi(Windows.GetCursorPosition());
-            
+
             floatingPane.Left = cursorPositionOnScreen.X - 30;
             floatingPane.Top = cursorPositionOnScreen.Y - 30;
             floatingPane.Width = dockPane.ActualWidth;
@@ -192,6 +202,7 @@ namespace OpenControls.Wpf.DockManager
             dockPane.UngroupCurrent += DockPane_UngroupCurrent;
             dockPane.Ungroup += DockPane_Ungroup;
             dockPane.TabClosed += DockPane_TabClosed;
+            dockPane.ElementExtracted += DockPane_ElementExtracted;
             if (dockPane is DocumentPaneGroup)
             {
                 dockPane.DockPaneActive += DockPane_DockPaneActive;
@@ -529,7 +540,7 @@ namespace OpenControls.Wpf.DockManager
                 isHorizontal = (defaultWindowLocation == WindowLocation.TopSide) || (defaultWindowLocation == WindowLocation.BottomSide);
                 isFirst = (defaultWindowLocation == WindowLocation.TopSide) || (defaultWindowLocation == WindowLocation.LeftSide);
             }
-        
+
             SplitterPane newSplitterPane = ILayoutFactory.MakeSplitterPane(isHorizontal);
 
             if (sibling == IDockPaneHost)
@@ -658,7 +669,7 @@ namespace OpenControls.Wpf.DockManager
                  G           DP             2 
               /     \     /     \           
               T     T     D     D           3
-              
+
                 Key: 
 
                     G = Grid
@@ -719,7 +730,8 @@ namespace OpenControls.Wpf.DockManager
 
                 documentPanel.Children.Add(documentPane);
                 list_N.Add(documentPane);
-                AddViews(documentViews, list_N, delegate { return ILayoutFactory.MakeDocumentPaneGroup(); });
+                AddViews(documentViews, list_N, delegate
+                { return ILayoutFactory.MakeDocumentPaneGroup(); });
             }
 
             if ((toolViews != null) && (toolViews.Count > 0))
@@ -732,7 +744,8 @@ namespace OpenControls.Wpf.DockManager
                 (IDockPaneHost.RootPane as SplitterPane).AddChild(toolPaneGroup, false);
 
                 list_N.Add(toolPaneGroup);
-                AddViews(toolViews, list_N, delegate { return ILayoutFactory.MakeToolPaneGroup(); });
+                AddViews(toolViews, list_N, delegate
+                { return ILayoutFactory.MakeToolPaneGroup(); });
             }
         }
 
@@ -789,7 +802,7 @@ namespace OpenControls.Wpf.DockManager
         public void ValidateDockPanes(Grid grid, Dictionary<IViewModel, List<string>> viewModelUrlDictionary, Type paneType)
         {
             List<DockPane> emptyDockPanes = new List<DockPane>();
-            
+
             ValidateDockPanes(IDockPaneHost.RootPane, viewModelUrlDictionary, emptyDockPanes, paneType);
 
             /*

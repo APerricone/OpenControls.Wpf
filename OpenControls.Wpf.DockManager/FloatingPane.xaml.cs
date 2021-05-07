@@ -18,8 +18,8 @@ namespace OpenControls.Wpf.DockManager
             Tag = System.Guid.NewGuid();
             InitializeComponent();
             StateChanged += MainWindowStateChangeRaised;
-            _parentContainer.Children.Add(iViewContainer as UIElement);
-            Grid.SetRow(iViewContainer as UIElement, 1);
+            //_parentContainer.Children.Add(iViewContainer as UIElement);
+            //Grid.SetRow(iViewContainer as UIElement, 1);
             IViewContainer = iViewContainer;
             IViewContainer.FloatTabRequest += IViewContainer_FloatTabRequest;
             IViewContainer.TabClosed += IViewContainer_TabClosed;
@@ -29,7 +29,7 @@ namespace OpenControls.Wpf.DockManager
             _textBlockTitle.SetResourceReference(TextBlock.StyleProperty, "FloatingPaneTitleStyle");
             SetResourceReference(Window.BackgroundProperty, "FloatingPaneBackground");
 
-            (IViewContainer as ViewContainer).Margin = (Thickness)FindResource("FloatingPanePadding");
+            //(IViewContainer as ViewContainer).Margin = (Thickness)FindResource("FloatingPanePadding");
 
             Style style = TryFindResource("FloatingPaneCloseButtonStyle") as Style;
             if (style != null)

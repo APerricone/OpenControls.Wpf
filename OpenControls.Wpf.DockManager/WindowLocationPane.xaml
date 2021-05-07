@@ -18,29 +18,5 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="{StaticResource RowIconHeight}"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="{StaticResource RowIconHeight}"/>
-            <RowDefinition Height="5"/>
-            <RowDefinition Height="{StaticResource RowIconHeight}"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="{StaticResource RowIconHeight}"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="{StaticResource RowIconHeight}"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="{StaticResource RowIconHeight}"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <!--Button Grid.Row="1" Grid.Column="3" Name="_buttonTop" Style="{DynamicResource WindowLocationTopStyle}"/>
-        <Button Grid.Row="3" Grid.Column="1" Name="_buttonLeft" Style="{DynamicResource WindowLocationLeftStyle}"/>
-        <Button Grid.Row="3" Grid.Column="3" Name="_buttonMiddle" Style="{DynamicResource WindowLocationMiddleStyle}"/>
-        <Button Grid.Row="3" Grid.Column="5" Name="_buttonRight" Style="{DynamicResource WindowLocationRightStyle}"/>
-        <Button Grid.Row="5" Grid.Column="3" Name="_buttonBottom" Style="{DynamicResource WindowLocationBottomStyle}"/-->
-    </Grid>
+    <Grid> </Grid>
 </Window>

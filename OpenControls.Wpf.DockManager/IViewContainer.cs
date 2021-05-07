@@ -12,6 +12,7 @@ namespace OpenControls.Wpf.DockManager
         void InsertUserControl(int index, UserControl userControl);
         UserControl ExtractUserControl(int index);
         int GetUserControlCount();
+        int GetUserControlIndex(UserControl userControl);
         int SelectedIndex { get; set; }
         UserControl GetUserControl(int index);
         IViewModel GetIViewModel(int index);
@@ -19,6 +20,7 @@ namespace OpenControls.Wpf.DockManager
 
         event EventHandler SelectionChanged;
         event Events.TabClosedEventHandler TabClosed;
+        event Events.ElementExtractedEventHandler ElementExtracted;
         event EventHandler FloatTabRequest;
         event EventHandler TabMouseDown;
     }

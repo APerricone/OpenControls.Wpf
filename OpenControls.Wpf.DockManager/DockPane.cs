@@ -12,6 +12,7 @@ namespace OpenControls.Wpf.DockManager
             IViewContainer = iViewContainer;
             IViewContainer.TabClosed += IViewContainer_TabClosed;
             IViewContainer.FloatTabRequest += IViewContainer_FloatTabRequest;
+            IViewContainer.ElementExtracted += IViewContainer_ElementExtracted;
             PreviewMouseDown += DockPane_PreviewMouseDown;
             IViewContainer.TabMouseDown += IViewContainer_TabMouseDown;
             Children.Add(iViewContainer as UIElement);
@@ -45,10 +46,16 @@ namespace OpenControls.Wpf.DockManager
         {
             TabClosed?.Invoke(this, e);
         }
+        private void IViewContainer_ElementExtracted(object sender, Events.ElementExtractedEventArgs e)
+        {
+            ElementExtracted?.Invoke(this, e);
+        }
+
 
         public event EventHandler CloseRequest;
         public event Events.FloatEventHandler Float;
         public event Events.TabClosedEventHandler TabClosed;
+        public event Events.ElementExtractedEventHandler ElementExtracted;
         public event EventHandler FloatTabRequest;
         public event EventHandler UngroupCurrent;
         public event EventHandler Ungroup;

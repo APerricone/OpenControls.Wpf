@@ -5,10 +5,13 @@ namespace OpenControls.Wpf.DockManager
 {
     internal class FloatingDocumentPaneGroup : FloatingPane, IActiveDocument
     {
-        internal FloatingDocumentPaneGroup() : base(new DocumentContainer())
+        internal FloatingDocumentPaneGroup() : base(new InternalViewContainer())
         {
             IViewContainer.SelectionChanged += IViewContainer_SelectionChanged;
-            (IViewContainer as DocumentContainer).HideCommandsButton();
+            if (IViewContainer is DocumentContainer)
+            {
+                (IViewContainer as DocumentContainer).HideCommandsButton();
+            }
         }
 
         private void IViewContainer_SelectionChanged(object sender, EventArgs e)

@@ -134,6 +134,7 @@ namespace OpenControls.Wpf.DockManager
 
         public event EventHandler SelectionChanged;
         public event Events.TabClosedEventHandler TabClosed;
+        public event Events.ElementExtractedEventHandler ElementExtracted;
         public event EventHandler FloatTabRequest;
         public event EventHandler TabMouseDown;
 
@@ -163,8 +164,8 @@ namespace OpenControls.Wpf.DockManager
             }
         }
 
-        public bool IsActive 
-        { 
+        public bool IsActive
+        {
             get
             {
                 return TabHeaderControl.IsActive;
@@ -212,6 +213,7 @@ namespace OpenControls.Wpf.DockManager
                 Children.Remove(userControl);
             }
             CheckTabCount();
+            ElementExtracted?.Invoke(this, new Events.ElementExtractedEventArgs() { UserControl = userControl });
 
             return userControl;
         }
@@ -268,6 +270,16 @@ namespace OpenControls.Wpf.DockManager
 
                 AddUserControl(userControl);
             }
+        }
+
+        public int GetUserControlIndex(UserControl userControl)
+        {
+            for (int i = 0; i < _items.Count; ++i)
+            {
+                if (_items[i].Key == userControl)
+                    return i;
+            }
+            return -1;
         }
 
         #endregion IViewContainer

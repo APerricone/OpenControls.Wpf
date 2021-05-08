@@ -134,7 +134,7 @@ namespace OpenControls.Wpf.DockManager
 
         public event EventHandler SelectionChanged;
         public event Events.TabClosedEventHandler TabClosed;
-        public event Events.ElementExtractedEventHandler ElementExtracted;
+        public event Events.DocumentExtractedEventHandler DocumentExtracted;
         public event EventHandler FloatTabRequest;
         public event EventHandler TabMouseDown;
 
@@ -213,8 +213,6 @@ namespace OpenControls.Wpf.DockManager
                 Children.Remove(userControl);
             }
             CheckTabCount();
-            ElementExtracted?.Invoke(this, new Events.ElementExtractedEventArgs() { UserControl = userControl });
-
             return userControl;
         }
 
@@ -234,6 +232,10 @@ namespace OpenControls.Wpf.DockManager
                 TabHeaderControl.SelectedIndex = value;
             }
         }
+
+        private DockPane _Pane;
+        public DockPane Pane { get => _Pane; set => _Pane = value; }
+
 
         public UserControl GetUserControl(int index)
         {
@@ -273,6 +275,8 @@ namespace OpenControls.Wpf.DockManager
 
                 AddUserControl(userControl);
             }
+            DocumentExtracted?.Invoke(this, new Events.DocumentExtractedEventArgs() { sourceViewContainer = sourceViewContainer });
+
         }
 
         public int GetUserControlIndex(UserControl userControl)

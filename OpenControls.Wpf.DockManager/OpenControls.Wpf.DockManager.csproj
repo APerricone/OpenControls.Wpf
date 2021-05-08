@@ -58,8 +58,8 @@
     <Compile Include="DocumentContainer.cs" />
     <Compile Include="DocumentPaneGroup.cs" />
     <Compile Include="DocumentPanel.cs" />
-    <Compile Include="Events\ElementExtractedEventArgs.cs" />
-    <Compile Include="Events\ElementExtractedEventHandler.cs" />
+    <Compile Include="Events\DocumentExtractedEventArgs.cs" />
+    <Compile Include="Events\DocumentExtractedEventHandler.cs" />
     <Compile Include="Events\FloatEventArgs.cs" />
     <Compile Include="Events\FloatEventHandler.cs" />
     <Compile Include="Events\ItemClickEventArgs.cs" />

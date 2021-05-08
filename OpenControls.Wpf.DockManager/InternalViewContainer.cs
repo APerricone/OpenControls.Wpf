@@ -16,10 +16,12 @@ namespace OpenControls.Wpf.DockManager
         public bool IsActive { get => false; set { } }
         private int _selIndex = 0;
         public int SelectedIndex { get => _selIndex; set => _selIndex = value; }
+        private DockPane _Pane;
+        public DockPane Pane { get => _Pane; set => _Pane=value; }
 
         public event EventHandler SelectionChanged;
         public event TabClosedEventHandler TabClosed;
-        public event ElementExtractedEventHandler ElementExtracted;
+        public event DocumentExtractedEventHandler DocumentExtracted;
         public event EventHandler FloatTabRequest;
         public event EventHandler TabMouseDown;
 
@@ -33,6 +35,11 @@ namespace OpenControls.Wpf.DockManager
             System.Diagnostics.Trace.Assert(userControl != null);
             System.Diagnostics.Trace.Assert(userControl.DataContext is IViewModel);
             _items.Add(new KeyValuePair<UserControl, IViewModel>(userControl, userControl.DataContext as IViewModel));
+            if(Pane==null)
+            {
+                IViewContainer parent = ((IViewContainer)userControl.Parent);
+                Pane = parent.Pane;
+            }
         }
 
         public void ExtractDocuments(IViewContainer sourceViewContainer)
@@ -47,6 +54,7 @@ namespace OpenControls.Wpf.DockManager
 
                 AddUserControl(userControl);
             }
+            DocumentExtracted?.Invoke(this, new Events.DocumentExtractedEventArgs() { sourceViewContainer = sourceViewContainer });
         }
 
         public void Clear()
@@ -66,7 +74,6 @@ namespace OpenControls.Wpf.DockManager
             IViewContainer parent = ((IViewContainer)userControl.Parent);
             if (parent!=null)
                 parent.ExtractUserControl(parent.GetUserControlIndex(userControl));
-            ElementExtracted?.Invoke(this, new Events.ElementExtractedEventArgs() { UserControl = userControl });
             return userControl;
         }
         internal bool CheckCyclic(ViewContainer viewContainer)

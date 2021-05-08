@@ -8,6 +8,7 @@ namespace OpenControls.Wpf.DockManager
         string Title { get; }
         string URL { get; }
         bool IsActive { get; set; }
+        DockPane Pane { get; set; }
         void AddUserControl(UserControl userControl);
         void InsertUserControl(int index, UserControl userControl);
         UserControl ExtractUserControl(int index);
@@ -20,7 +21,7 @@ namespace OpenControls.Wpf.DockManager
 
         event EventHandler SelectionChanged;
         event Events.TabClosedEventHandler TabClosed;
-        event Events.ElementExtractedEventHandler ElementExtracted;
+        event Events.DocumentExtractedEventHandler DocumentExtracted;
         event EventHandler FloatTabRequest;
         event EventHandler TabMouseDown;
     }

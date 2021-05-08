@@ -85,10 +85,15 @@ namespace OpenControls.Wpf.DockManager
             IDockPaneHost.RemoveViewModel(e.UserControl.DataContext as IViewModel);
         }
 
-        private void DockPane_ElementExtracted(object sender, Events.ElementExtractedEventArgs e)
+        private void DockPane_ElementExtracted(object sender, Events.DocumentExtractedEventArgs e)
         {
             DockPane dockPane = (DockPane)sender;
             if(dockPane.IViewContainer.GetUserControlCount()==0)
+            {
+                ExtractDockPane(dockPane, out FrameworkElement frameworkElement);
+            }
+            dockPane = e.sourceViewContainer.Pane;
+            if (dockPane.IViewContainer.GetUserControlCount() == 0)
             {
                 ExtractDockPane(dockPane, out FrameworkElement frameworkElement);
             }
@@ -208,7 +213,7 @@ namespace OpenControls.Wpf.DockManager
             dockPane.UngroupCurrent += DockPane_UngroupCurrent;
             dockPane.Ungroup += DockPane_Ungroup;
             dockPane.TabClosed += DockPane_TabClosed;
-            dockPane.ElementExtracted += DockPane_ElementExtracted;
+            dockPane.DocumentExtracted += DockPane_ElementExtracted;
             if (dockPane is DocumentPaneGroup)
             {
                 dockPane.DockPaneActive += DockPane_DockPaneActive;
@@ -479,20 +484,20 @@ namespace OpenControls.Wpf.DockManager
                         {
                             dockPane = ILayoutFactory.MakeDocumentPaneGroup();
                         }
-                        dockPane.IViewContainer.ExtractDocuments(floatingPane.IViewContainer);
-                        floatingPane.Close();
+                        DependencyObject currParent = selectedPane.Parent;
+                        
 
                         SplitterPane newGrid = ILayoutFactory.MakeSplitterPane((windowLocation == WindowLocation.Top) || (windowLocation == WindowLocation.Bottom));
 
-                        if (selectedPane.Parent is DocumentPanel)
+                        if (currParent is DocumentPanel)
                         {
-                            DocumentPanel documentPanel = selectedPane.Parent as DocumentPanel;
+                            DocumentPanel documentPanel = currParent as DocumentPanel;
                             documentPanel.Children.Remove(selectedPane);
                             documentPanel.Children.Add(newGrid);
                         }
                         else
                         {
-                            parentSplitterPane = (selectedPane.Parent as SplitterPane);
+                            parentSplitterPane = (currParent as SplitterPane);
                             parentSplitterPane.Children.Remove(selectedPane);
                             parentSplitterPane.Children.Add(newGrid);
                             Grid.SetRow(newGrid, Grid.GetRow(selectedPane));
@@ -502,6 +507,8 @@ namespace OpenControls.Wpf.DockManager
                         bool isTargetFirst = (windowLocation == WindowLocation.Right) || (windowLocation == WindowLocation.Bottom);
                         newGrid.AddChild(selectedPane, isTargetFirst);
                         newGrid.AddChild(dockPane, !isTargetFirst);
+                        dockPane.IViewContainer.ExtractDocuments(floatingPane.IViewContainer);
+                        floatingPane.Close();
                         break;
 
                     case WindowLocation.Middle:

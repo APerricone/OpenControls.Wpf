@@ -29,7 +29,11 @@ namespace OpenControls.Wpf.DockManager
         private void FloatingPane_Closed(object sender, EventArgs e)
         {
             FloatingPane floatingPane = sender as FloatingPane;
-
+            if(floatingPane.IViewContainer is InternalViewContainer)
+            {
+                ((InternalViewContainer)(floatingPane.IViewContainer)).Clear();
+            }
+            
             int count = floatingPane.IViewContainer.GetUserControlCount();
             for (int index = count - 1; index > -1; --index)
             {
@@ -382,6 +386,10 @@ namespace OpenControls.Wpf.DockManager
                         (_insertionIndicatorManager.WindowLocation == WindowLocation.None)
                    )
                 {
+                    if(floatingPane!=null)
+                    { 
+                        floatingPane.Close();
+                    }
                     CancelSelection();
                     return;
                 }

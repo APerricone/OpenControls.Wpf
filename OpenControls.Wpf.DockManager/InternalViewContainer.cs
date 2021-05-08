@@ -49,6 +49,11 @@ namespace OpenControls.Wpf.DockManager
             }
         }
 
+        public void Clear()
+        {
+            _items.Clear();
+        }
+
         public UserControl ExtractUserControl(int index)
         {
             if ((index < 0) || (index >= _items.Count))
@@ -58,9 +63,9 @@ namespace OpenControls.Wpf.DockManager
             UserControl userControl = _items[index].Key;
             _items.RemoveAt(index);
             //userControl.Parent.Remove( userControl );
-            UserControl test = ((IViewContainer)userControl.Parent).GetUserControl(index);
             IViewContainer parent = ((IViewContainer)userControl.Parent);
-            parent.ExtractUserControl(parent.GetUserControlIndex(userControl));
+            if (parent!=null)
+                parent.ExtractUserControl(parent.GetUserControlIndex(userControl));
             ElementExtracted?.Invoke(this, new Events.ElementExtractedEventArgs() { UserControl = userControl });
             return userControl;
         }
@@ -100,7 +105,7 @@ namespace OpenControls.Wpf.DockManager
 
         public int GetUserControlIndex(UserControl userControl)
         {
-            for(int i=0;i<_items.Count;++i)
+            for (int i = 0; i < _items.Count; ++i)
             {
                 if (_items[i].Key == userControl)
                     return i;

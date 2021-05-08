@@ -5,7 +5,7 @@ namespace OpenControls.Wpf.DockManager
 {
     internal class FloatingToolPaneGroup : FloatingPane
     {
-        internal FloatingToolPaneGroup() : base(new ToolContainer())
+        internal FloatingToolPaneGroup() : base(new InternalViewContainer())
         {
             IViewContainer.SelectionChanged += IViewContainer_SelectionChanged;
         }

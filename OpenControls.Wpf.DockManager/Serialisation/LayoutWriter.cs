@@ -23,8 +23,8 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
         private static void AddWidthAndHeightAttributes(XmlDocument xmlDocument, XmlElement xmlElement, Grid grid)
         {
-            AddAttribute(xmlDocument, xmlElement, "Width", grid.ActualWidth.ToString());
-            AddAttribute(xmlDocument, xmlElement, "Height", grid.ActualHeight.ToString());
+            AddAttribute(xmlDocument, xmlElement, "Width", grid.ActualWidth.ToString() + "*");
+            AddAttribute(xmlDocument, xmlElement, "Height", grid.ActualHeight.ToString() + "*");
         }
 
         private static XmlElement AddToolPaneGroupNode(XmlDocument xmlDocument, XmlNode xmlParentNode, ToolPaneGroup toolPaneGroup)
@@ -37,6 +37,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
             AddGuidAttribute(xmlDocument, xmlToolPaneGroup, toolPaneGroup);
             AddWidthAndHeightAttributes(xmlDocument, xmlToolPaneGroup, toolPaneGroup);
+            AddAttribute(xmlDocument, xmlToolPaneGroup, "selectedIndex", toolPaneGroup.IViewContainer.SelectedIndex.ToString());
 
             xmlParentNode.AppendChild(xmlToolPaneGroup);
 
@@ -103,6 +104,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
             XmlElement xmlDocumentPaneGroup = xmlDocument.CreateElement("DocumentPaneGroup");
             AddGuidAttribute(xmlDocument, xmlDocumentPaneGroup, documentPaneGroup);
             AddWidthAndHeightAttributes(xmlDocument, xmlDocumentPaneGroup, documentPaneGroup);
+            AddAttribute(xmlDocument, xmlDocumentPaneGroup, "selectedIndex", documentPaneGroup.IViewContainer.SelectedIndex.ToString());
 
             xmlParentNode.AppendChild(xmlDocumentPaneGroup);
 

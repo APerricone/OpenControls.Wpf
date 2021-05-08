@@ -30,6 +30,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
         private static void SetWidthOrHeight(XmlElement xmlElement, FrameworkElement parentFrameworkElement, bool isParentHorizontal, int row, int column)
         {
+            GridLengthConverter converter = new GridLengthConverter();
             Grid grid = parentFrameworkElement as Grid;
             if (grid != null)
             {
@@ -37,17 +38,21 @@ namespace OpenControls.Wpf.DockManager.Serialisation
                 {
                     if (row < grid.RowDefinitions.Count)
                     {
-                        double height = GetDoubleAttribute(xmlElement, "Height");
-                        grid.RowDefinitions[row].Height = new GridLength(height, GridUnitType.Star);
+                        if (xmlElement.HasAttribute("Height"))
+                           grid.RowDefinitions[row].Height = (GridLength)converter.ConvertFrom(GetStringAttribute(xmlElement, "Height"));
+                        else
+                           grid.RowDefinitions[row].Height = new GridLength(1, GridUnitType.Star);
                     }
                 }
                 else
                 {
                     if (column < grid.ColumnDefinitions.Count)
                     {
-                        double width = GetDoubleAttribute(xmlElement, "Width");
-                        grid.ColumnDefinitions[column].Width = new GridLength(width, GridUnitType.Star);
-                    }
+                        if (xmlElement.HasAttribute("Width"))
+                           grid.ColumnDefinitions[column].Width = (GridLength)converter.ConvertFrom(GetStringAttribute(xmlElement, "Width"));
+                        else
+                           grid.ColumnDefinitions[column].Width = new GridLength(1, GridUnitType.Star);
+                     }
                 }
             }
         }
@@ -80,6 +85,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
                     }
                 }
             }
+            iViewContainer.SelectedIndex = int.Parse(GetStringAttribute(xmlToolPaneGroup, "selectedIndex"));
         }
 
         private static void LoadDocuments(ILayoutFactory iLayoutFactory, Dictionary<string, UserControl> viewsMap, XmlElement xmlDocumentPaneGroup, IViewContainer iViewContainer)
@@ -104,12 +110,15 @@ namespace OpenControls.Wpf.DockManager.Serialisation
                     }
                 }
             }
+            iViewContainer.SelectedIndex = int.Parse(GetStringAttribute(xmlDocumentPaneGroup, "selectedIndex"));
         }
 
         private static Guid GetGuid(XmlElement xmlElement)
         {
             XmlAttribute xmlAttribute = xmlElement.Attributes.GetNamedItem("Guid") as XmlAttribute;
-            return new Guid(xmlAttribute.Value);
+            if(xmlAttribute!=null)
+               return new Guid(xmlAttribute.Value);
+            return Guid.NewGuid();
         }
 
         private static void LoadUnPinnedToolDataNodes(ILayoutFactory iLayoutFactory, Dictionary<string, UserControl> viewsMap, WindowLocation windowLocation, XmlElement xmlParentElement)

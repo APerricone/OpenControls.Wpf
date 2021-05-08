@@ -34,13 +34,6 @@ namespace OpenControls.Wpf.DockManager
             Grid.SetColumn(_gap, 0);
             Grid.SetColumnSpan(_gap, 6);
 
-            _commandsButton = new Button();
-            Children.Add(_commandsButton);
-            Grid.SetRow(_commandsButton, 0);
-            Grid.SetColumn(_commandsButton, 2);
-            _commandsButton.Click += delegate { if (DisplayGeneralMenu != null) DisplayGeneralMenu(); };
-            _commandsButton.SetResourceReference(StyleProperty, "DocumentPaneCommandsButtonStyle");
-
             _listButton = new Button();
             Children.Add(_listButton);
             Grid.SetRow(_listButton, 0);
@@ -65,24 +58,6 @@ namespace OpenControls.Wpf.DockManager
         {
             return System.Windows.Forms.MessageBox.Show(CloseDocumentsDialogPrompt, documentTitle, System.Windows.Forms.MessageBoxButtons.YesNoCancel);
         }
-
-        public void HideCommandsButton()
-        {
-            _commandsButton.Visibility = Visibility.Collapsed;
-        }
-
-        public Style CommandsButtonStyle
-        {
-            set
-            {
-                if (value != null)
-                {
-                    _commandsButton.Style = value;
-                }
-            }
-        }
-
-        private Button _commandsButton;
 
         public Action DisplayGeneralMenu;
 

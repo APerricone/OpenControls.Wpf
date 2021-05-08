@@ -7,6 +7,7 @@ using System.Xml;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using OpenControls.Wpf.DockManager.Controls;
+using System.IO;
 
 namespace OpenControls.Wpf.DockManager
 {
@@ -376,7 +377,7 @@ namespace OpenControls.Wpf.DockManager
             IFloatingPaneManager.Clear();
         }
 
-        public List<UserControl> LoadViewsFromTemplates(List<DataTemplate> dataTemplates, ObservableCollection<IViewModel> viewModels)
+        private List<UserControl> LoadViewsFromTemplates(List<DataTemplate> dataTemplates, ObservableCollection<IViewModel> viewModels)
         {
             List<UserControl> views = new List<UserControl>();
 
@@ -729,7 +730,7 @@ namespace OpenControls.Wpf.DockManager
 
         public bool LoadLayoutFromFile(string fileNameAndPath)
         {
-            if (string.IsNullOrEmpty(fileNameAndPath))
+            if (string.IsNullOrEmpty(fileNameAndPath) || !File.Exists(fileNameAndPath))
             {
                 LoadDefaultLayout();
                 return true;

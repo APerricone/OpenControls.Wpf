@@ -94,14 +94,6 @@ namespace OpenControls.Wpf.DockManager
             Grid.SetColumn(_titleLabel, 1);
             Children.Add(_titleLabel);
 
-            _commandsButton = new Button();
-            _commandsButton.VerticalAlignment = VerticalAlignment.Center;
-            _commandsButton.SetResourceReference(StyleProperty, "ToolPaneCommandsButtonStyle");
-            _commandsButton.Click += delegate { DisplayGeneralMenu(); };
-            Grid.SetRow(_commandsButton, 1);
-            Grid.SetColumn(_commandsButton, 4);
-            Children.Add(_commandsButton);
-
             _pinButton = new Button();
             _pinButton.VerticalAlignment = VerticalAlignment.Center;
             _pinButton.LayoutTransform = new System.Windows.Media.RotateTransform();
@@ -128,11 +120,6 @@ namespace OpenControls.Wpf.DockManager
             _titleLabel.SetResourceReference(Label.FontSizeProperty, "ToolPaneHeaderFontSize");
             _titleLabel.SetResourceReference(Label.FontFamilyProperty, "ToolPaneHeaderFontFamily");
             _titleLabel.SetResourceReference(Label.PaddingProperty, "ToolPaneHeaderTitlePadding");
-        }
-
-        public void HideCommandsButton()
-        {
-            _commandsButton.Visibility = Visibility.Collapsed;
         }
 
         public Border HeaderBorder;
@@ -183,7 +170,6 @@ namespace OpenControls.Wpf.DockManager
 
         private Button _pinButton;
         private Button _closeButton;
-        private Button _commandsButton;
         private Point _mouseDownPosition;
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

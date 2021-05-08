@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace OpenControls.Wpf.DockManager
 {
     internal abstract class ViewContainer : Grid, IViewContainer
     {
-        protected System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<UserControl, IViewModel>> _items;
+        protected System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>> _items;
         public OpenControls.Wpf.TabHeaderControl.TabHeaderControl TabHeaderControl;
-        protected UserControl _selectedUserControl;
+        protected FrameworkElement _selectedUserControl;
         protected Border _gap;
         protected Button _listButton;
 
         protected void CreateTabControl(int row, int column)
         {
-            _items = new System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<UserControl, IViewModel>>();
+            _items = new System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>>();
 
             TabHeaderControl = new OpenControls.Wpf.TabHeaderControl.TabHeaderControl();
             TabHeaderControl.SelectionChanged += _tabHeaderControl_SelectionChanged;
@@ -57,11 +58,11 @@ namespace OpenControls.Wpf.DockManager
 
         protected void _tabHeaderControl_ItemsChanged(object sender, System.EventArgs e)
         {
-            var items = new System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<UserControl, IViewModel>>();
+            var items = new System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>>();
 
             foreach (var item in TabHeaderControl.Items)
             {
-                items.Add((System.Collections.Generic.KeyValuePair<UserControl, IViewModel>)item);
+                items.Add((System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>)item);
             }
             int selectedIndex = (TabHeaderControl.SelectedIndex == -1) ? 0 : TabHeaderControl.SelectedIndex;
 
@@ -80,7 +81,7 @@ namespace OpenControls.Wpf.DockManager
                 return;
             }
 
-            System.Collections.Generic.KeyValuePair<UserControl, IViewModel> item = (System.Collections.Generic.KeyValuePair<UserControl, IViewModel>)sender;
+            System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel> item = (System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>)sender;
             if (item.Value.CanClose)
             {
                 if (item.Value.HasChanged)
@@ -178,34 +179,34 @@ namespace OpenControls.Wpf.DockManager
 
         protected abstract void CheckTabCount();
 
-        public void AddUserControl(UserControl userControl)
+        public void AddUserControl(FrameworkElement userControl)
         {
             System.Diagnostics.Trace.Assert(userControl != null);
             System.Diagnostics.Trace.Assert(userControl.DataContext is IViewModel);
 
-            _items.Add(new System.Collections.Generic.KeyValuePair<UserControl, IViewModel>(userControl, userControl.DataContext as IViewModel));
+            _items.Add(new System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>(userControl, userControl.DataContext as IViewModel));
             TabHeaderControl.SelectedItem = _items[_items.Count - 1];
         }
 
-        public void InsertUserControl(int index, UserControl userControl)
+        public void InsertUserControl(int index, FrameworkElement userControl)
         {
             System.Diagnostics.Trace.Assert(index > -1);
             System.Diagnostics.Trace.Assert(index <= _items.Count);
             System.Diagnostics.Trace.Assert(userControl != null);
             System.Diagnostics.Trace.Assert(userControl.DataContext is IViewModel);
 
-            _items.Insert(index, new System.Collections.Generic.KeyValuePair<UserControl, IViewModel>(userControl, userControl.DataContext as IViewModel));
+            _items.Insert(index, new System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>(userControl, userControl.DataContext as IViewModel));
             CheckTabCount();
         }
 
-        public UserControl ExtractUserControl(int index)
+        public FrameworkElement ExtractUserControl(int index)
         {
             if ((index < 0) || (index >= _items.Count))
             {
                 return null;
             }
 
-            UserControl userControl = _items[index].Key;
+            FrameworkElement userControl = _items[index].Key;
             _items.RemoveAt(index);
             TabHeaderControl.ItemsSource = _items;
             if (Children.Contains(userControl))
@@ -237,7 +238,7 @@ namespace OpenControls.Wpf.DockManager
         public DockPane Pane { get => _Pane; set => _Pane = value; }
 
 
-        public UserControl GetUserControl(int index)
+        public FrameworkElement GetUserControl(int index)
         {
             if ((index < 0) || (index >= _items.Count))
             {
@@ -249,7 +250,7 @@ namespace OpenControls.Wpf.DockManager
 
         public IViewModel GetIViewModel(int index)
         {
-            UserControl userControl = GetUserControl(index);
+            FrameworkElement userControl = GetUserControl(index);
             if (userControl == null)
             {
                 return null;
@@ -267,7 +268,7 @@ namespace OpenControls.Wpf.DockManager
             }
             while (true)
             {
-                UserControl userControl = sourceViewContainer.ExtractUserControl(0);
+                FrameworkElement userControl = sourceViewContainer.ExtractUserControl(0);
                 if (userControl == null)
                 {
                     break;
@@ -279,7 +280,7 @@ namespace OpenControls.Wpf.DockManager
 
         }
 
-        public int GetUserControlIndex(UserControl userControl)
+        public int GetUserControlIndex(FrameworkElement userControl)
         {
             for (int i = 0; i < _items.Count; ++i)
             {

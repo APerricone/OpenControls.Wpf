@@ -47,7 +47,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
             for (int index = 0; index < count; ++index)
             {
-                UserControl userControl = toolPaneGroup.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = toolPaneGroup.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -114,7 +114,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
             for (int index = 0; index < count; ++index)
             {
-                UserControl userControl = documentPaneGroup.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = documentPaneGroup.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -186,7 +186,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
             for (int index = 0; index < count; ++index)
             {
-                UserControl userControl = floatingToolPaneGroup.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = floatingToolPaneGroup.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -214,7 +214,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
 
             for (int index = 0; index < count; ++index)
             {
-                UserControl userControl = floatingDocumentPaneGroup.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = floatingDocumentPaneGroup.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;

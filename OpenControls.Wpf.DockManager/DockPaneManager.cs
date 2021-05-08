@@ -68,7 +68,7 @@ namespace OpenControls.Wpf.DockManager
 
             while (true)
             {
-                UserControl userControl = dockPane.IViewContainer.ExtractUserControl(0);
+                FrameworkElement userControl = dockPane.IViewContainer.ExtractUserControl(0);
                 if (userControl == null)
                 {
                     break;
@@ -151,7 +151,7 @@ namespace OpenControls.Wpf.DockManager
             floatingPane.Height = currItem.ActualHeight;
             while (true)
             {
-                UserControl userControl = dockPane.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = dockPane.IViewContainer.GetUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -255,7 +255,7 @@ namespace OpenControls.Wpf.DockManager
             return null;
         }
 
-        private void AddViews(List<UserControl> views, List<FrameworkElement> list_N, DelegateCreateDockPane createDockPane)
+        private void AddViews(List<FrameworkElement> views, List<FrameworkElement> list_N, DelegateCreateDockPane createDockPane)
         {
             List<FrameworkElement> list_N_plus_1 = new List<FrameworkElement>();
             bool isHorizontal = false;
@@ -281,7 +281,7 @@ namespace OpenControls.Wpf.DockManager
 
                     node = views[viewIndex];
                     DockPane dockPane = createDockPane();
-                    dockPane.IViewContainer.AddUserControl(node as UserControl);
+                    dockPane.IViewContainer.AddUserControl(node as FrameworkElement);
 
                     list_N_plus_1.Add(dockPane);
 
@@ -369,7 +369,7 @@ namespace OpenControls.Wpf.DockManager
             Grid parentSplitterPane = dockPane.Parent as Grid;
             System.Diagnostics.Trace.Assert(parentSplitterPane != null, System.Reflection.MethodBase.GetCurrentMethod().Name + ": dockPane.Parent not a Grid");
 
-            UserControl userControl = dockPane.IViewContainer.ExtractUserControl(index);
+            FrameworkElement userControl = dockPane.IViewContainer.ExtractUserControl(index);
             if (userControl == null)
             {
                 return false;
@@ -668,7 +668,7 @@ namespace OpenControls.Wpf.DockManager
             unpinnedToolData.SiblingGuid = (Guid)((frameworkElement as Grid).Tag);
         }
 
-        public void CreateDefaultLayout(List<UserControl> documentViews, List<UserControl> toolViews)
+        public void CreateDefaultLayout(List<FrameworkElement> documentViews, List<FrameworkElement> toolViews)
         {
             IDockPaneHost.Clear();
 
@@ -842,8 +842,8 @@ namespace OpenControls.Wpf.DockManager
                     }
                     System.Diagnostics.Trace.Assert(siblingDockPane != null);
 
-                    List<UserControl> userControls = IDockPaneHost.LoadDocumentViews(new ObservableCollection<IViewModel>(viewModelUrlDictionary.Keys));
-                    foreach (UserControl userControl in userControls)
+                    List<FrameworkElement> userControls = IDockPaneHost.LoadDocumentViews(new ObservableCollection<IViewModel>(viewModelUrlDictionary.Keys));
+                    foreach (FrameworkElement userControl in userControls)
                     {
                         siblingDockPane.IViewContainer.AddUserControl(userControl);
                     }
@@ -874,8 +874,8 @@ namespace OpenControls.Wpf.DockManager
                     }
                     System.Diagnostics.Trace.Assert(siblingDockPane != null);
 
-                    List<UserControl> userControls = IDockPaneHost.LoadToolViews(new ObservableCollection<IViewModel>(viewModelUrlDictionary.Keys));
-                    foreach (UserControl userControl in userControls)
+                    List<FrameworkElement> userControls = IDockPaneHost.LoadToolViews(new ObservableCollection<IViewModel>(viewModelUrlDictionary.Keys));
+                    foreach (FrameworkElement userControl in userControls)
                     {
                         siblingDockPane.IViewContainer.AddUserControl(userControl);
                     }

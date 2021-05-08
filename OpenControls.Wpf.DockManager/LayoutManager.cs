@@ -377,9 +377,9 @@ namespace OpenControls.Wpf.DockManager
             IFloatingPaneManager.Clear();
         }
 
-        private List<UserControl> LoadViewsFromTemplates(List<DataTemplate> dataTemplates, ObservableCollection<IViewModel> viewModels)
+        private List<FrameworkElement> LoadViewsFromTemplates(List<DataTemplate> dataTemplates, ObservableCollection<IViewModel> viewModels)
         {
-            List<UserControl> views = new List<UserControl>();
+            List<FrameworkElement> views = new List<FrameworkElement>();
 
             if ((dataTemplates == null) || (dataTemplates.Count == 0) || (viewModels == null))
             {
@@ -398,7 +398,7 @@ namespace OpenControls.Wpf.DockManager
 
                         if (viewModel.GetType() == (Type)dataTemplate.DataType)
                         {
-                            UserControl view = (dataTemplate.LoadContent() as UserControl);
+                            FrameworkElement view = (dataTemplate.LoadContent() as FrameworkElement);
                             if (view != null)
                             {
                                 view.DataContext = viewModel;
@@ -424,7 +424,7 @@ namespace OpenControls.Wpf.DockManager
             }
             System.Diagnostics.Debug.Assert(index != -1);
 
-            UserControl userControl = iViewContainer.GetUserControl(index);
+            FrameworkElement userControl = iViewContainer.GetUserControl(index);
             if (userControl == null)
             {
                 // Should never happen! 
@@ -595,12 +595,12 @@ namespace OpenControls.Wpf.DockManager
             }
         }
 
-        List<UserControl> IDockPaneHost.LoadToolViews(ObservableCollection<IViewModel> viewModels)
+        List<FrameworkElement> IDockPaneHost.LoadToolViews(ObservableCollection<IViewModel> viewModels)
         {
             return LoadViewsFromTemplates(ToolTemplates, viewModels);
         }
 
-        List<UserControl> IDockPaneHost.LoadDocumentViews(ObservableCollection<IViewModel> viewModels)
+        List<FrameworkElement> IDockPaneHost.LoadDocumentViews(ObservableCollection<IViewModel> viewModels)
         {
             return LoadViewsFromTemplates(DocumentTemplates, viewModels);
         }
@@ -671,8 +671,8 @@ namespace OpenControls.Wpf.DockManager
 
         private void LoadDefaultLayout()
         {
-            List<UserControl> documentViews = LoadViewsFromTemplates(DocumentTemplates, DocumentsSource);
-            List<UserControl> toolViews = LoadViewsFromTemplates(ToolTemplates, ToolsSource);
+            List<FrameworkElement> documentViews = LoadViewsFromTemplates(DocumentTemplates, DocumentsSource);
+            List<FrameworkElement> toolViews = LoadViewsFromTemplates(ToolTemplates, ToolsSource);
 
             IDockPaneManager.CreateDefaultLayout(documentViews, toolViews);
             UpdateLayout();
@@ -686,11 +686,11 @@ namespace OpenControls.Wpf.DockManager
                 return false;
             }
 
-            List<UserControl> documentViews = LoadViewsFromTemplates(DocumentTemplates, DocumentsSource);
-            List<UserControl> toolViews = LoadViewsFromTemplates(ToolTemplates, ToolsSource);
+            List<FrameworkElement> documentViews = LoadViewsFromTemplates(DocumentTemplates, DocumentsSource);
+            List<FrameworkElement> toolViews = LoadViewsFromTemplates(ToolTemplates, ToolsSource);
 
-            List<UserControl> views = new List<UserControl>();
-            Dictionary<string, UserControl> viewsMap = new Dictionary<string, UserControl>();
+            List<FrameworkElement> views = new List<FrameworkElement>();
+            Dictionary<string, FrameworkElement> viewsMap = new Dictionary<string, FrameworkElement>();
 
             foreach (var item in documentViews)
             {

@@ -37,7 +37,7 @@ namespace OpenControls.Wpf.DockManager
             int count = floatingPane.IViewContainer.GetUserControlCount();
             for (int index = count - 1; index > -1; --index)
             {
-                UserControl userControl = floatingPane.IViewContainer.GetUserControl(index);
+                FrameworkElement userControl = floatingPane.IViewContainer.GetUserControl(index);
                 IFloatingPaneHost.RemoveViewModel(userControl.DataContext as IViewModel);
             }
 
@@ -67,7 +67,7 @@ namespace OpenControls.Wpf.DockManager
                 return null;
             }
 
-            UserControl userControl = floatingPane.IViewContainer.ExtractUserControl(index);
+            FrameworkElement userControl = floatingPane.IViewContainer.ExtractUserControl(index);
             if (userControl == null)
             {
                 return null;
@@ -506,7 +506,7 @@ namespace OpenControls.Wpf.DockManager
             }
 
             int index = floatingPane.IViewContainer.SelectedIndex;
-            UserControl userControl = floatingPane.IViewContainer.ExtractUserControl(index);
+            FrameworkElement userControl = floatingPane.IViewContainer.ExtractUserControl(index);
             
             System.Diagnostics.Trace.Assert(userControl != null);
 

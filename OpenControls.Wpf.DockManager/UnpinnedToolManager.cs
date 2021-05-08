@@ -31,7 +31,7 @@ namespace OpenControls.Wpf.DockManager
         {
             UnpinnedToolPane unpinnedToolPane = new UnpinnedToolPane();
 
-            UserControl userControl = toolListBoxItem.IViewContainer.ExtractUserControl(toolListBoxItem.Index);
+            FrameworkElement userControl = toolListBoxItem.IViewContainer.ExtractUserControl(toolListBoxItem.Index);
             unpinnedToolPane.ToolPane.IViewContainer.AddUserControl(userControl);
             Point topLeftPoint = Windows.ScaleByDpi(IUnpinnedToolHost.RootPane.PointToScreen(new Point(0, 0)));
             unpinnedToolPane.Left = topLeftPoint.X;
@@ -80,11 +80,11 @@ namespace OpenControls.Wpf.DockManager
             System.Diagnostics.Trace.Assert(_activeUnpinnedToolPane == sender);
             System.Diagnostics.Trace.Assert(_activeUnpinnedToolData != null);
 
-            /*
-             * Put the view back into its ToolPane  
-             */
+         /*
+          * Put the view back into its ToolPane  
+          */
 
-            UserControl userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
+            FrameworkElement userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
             _activeToolListBoxItem.IViewContainer.InsertUserControl(_activeToolListBoxItem.Index, userControl);
 
             /*
@@ -114,7 +114,7 @@ namespace OpenControls.Wpf.DockManager
             System.Diagnostics.Trace.Assert(sender is UnpinnedToolPane);
             System.Diagnostics.Trace.Assert(sender == _activeUnpinnedToolPane);
 
-            UserControl userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
+            FrameworkElement userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
             IViewModel iViewModel = userControl.DataContext as IViewModel;
 
             System.Diagnostics.Trace.Assert(iViewModel != null);
@@ -181,7 +181,7 @@ namespace OpenControls.Wpf.DockManager
         {
             if (_activeUnpinnedToolPane != null)
             {
-                UserControl userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
+                FrameworkElement userControl = _activeUnpinnedToolPane.ToolPane.IViewContainer.ExtractUserControl(0);
                 _activeToolListBoxItem.IViewContainer.InsertUserControl(_activeToolListBoxItem.Index, userControl);
                 _activeUnpinnedToolPane.Close();
                 _activeUnpinnedToolPane = null;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace OpenControls.Wpf.DockManager
@@ -25,16 +26,16 @@ namespace OpenControls.Wpf.DockManager
         public event EventHandler FloatTabRequest;
         public event EventHandler TabMouseDown;
 
-        protected ObservableCollection<KeyValuePair<UserControl, IViewModel>> _items;
+        protected ObservableCollection<KeyValuePair<FrameworkElement, IViewModel>> _items;
         public InternalViewContainer()
         {
-            _items = new ObservableCollection<KeyValuePair<UserControl, IViewModel>>();
+            _items = new ObservableCollection<KeyValuePair<FrameworkElement, IViewModel>>();
         }
-        public void AddUserControl(UserControl userControl)
+        public void AddUserControl(FrameworkElement userControl)
         {
             System.Diagnostics.Trace.Assert(userControl != null);
             System.Diagnostics.Trace.Assert(userControl.DataContext is IViewModel);
-            _items.Add(new KeyValuePair<UserControl, IViewModel>(userControl, userControl.DataContext as IViewModel));
+            _items.Add(new KeyValuePair<FrameworkElement, IViewModel>(userControl, userControl.DataContext as IViewModel));
             if(Pane==null)
             {
                 IViewContainer parent = ((IViewContainer)userControl.Parent);
@@ -46,7 +47,7 @@ namespace OpenControls.Wpf.DockManager
         {
             for (int index = 0; ; ++index)
             {
-                UserControl userControl = sourceViewContainer.ExtractUserControl(index);
+                FrameworkElement userControl = sourceViewContainer.ExtractUserControl(index);
                 if (userControl == null)
                 {
                     break;
@@ -62,13 +63,13 @@ namespace OpenControls.Wpf.DockManager
             _items.Clear();
         }
 
-        public UserControl ExtractUserControl(int index)
+        public FrameworkElement ExtractUserControl(int index)
         {
             if ((index < 0) || (index >= _items.Count))
             {
                 return null;
             }
-            UserControl userControl = _items[index].Key;
+            FrameworkElement userControl = _items[index].Key;
             _items.RemoveAt(index);
             //userControl.Parent.Remove( userControl );
             IViewContainer parent = ((IViewContainer)userControl.Parent);
@@ -82,7 +83,7 @@ namespace OpenControls.Wpf.DockManager
             {
                 return false;
             }
-            UserControl userControl = _items[0].Key;
+            FrameworkElement userControl = _items[0].Key;
             IViewContainer parent = ((IViewContainer)userControl.Parent);
             return parent == viewContainer;
         }
@@ -96,7 +97,7 @@ namespace OpenControls.Wpf.DockManager
             return _items[index].Value;
         }
 
-        public UserControl GetUserControl(int index)
+        public FrameworkElement GetUserControl(int index)
         {
             if ((index < 0) || (index >= _items.Count))
             {
@@ -110,17 +111,17 @@ namespace OpenControls.Wpf.DockManager
             return _items.Count;
         }
 
-        public void InsertUserControl(int index, UserControl userControl)
+        public void InsertUserControl(int index, FrameworkElement userControl)
         {
             System.Diagnostics.Trace.Assert(index > -1);
             System.Diagnostics.Trace.Assert(index <= _items.Count);
             System.Diagnostics.Trace.Assert(userControl != null);
             System.Diagnostics.Trace.Assert(userControl.DataContext is IViewModel);
 
-            _items.Insert(index, new System.Collections.Generic.KeyValuePair<UserControl, IViewModel>(userControl, userControl.DataContext as IViewModel));
+            _items.Insert(index, new System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>(userControl, userControl.DataContext as IViewModel));
         }
 
-        public int GetUserControlIndex(UserControl userControl)
+        public int GetUserControlIndex(FrameworkElement userControl)
         {
             for (int i = 0; i < _items.Count; ++i)
             {

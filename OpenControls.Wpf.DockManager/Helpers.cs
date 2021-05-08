@@ -7,9 +7,9 @@ namespace OpenControls.Wpf.DockManager
     internal static class Helpers
     {
         internal static void DisplayItemsMenu(
-            System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<UserControl, IViewModel>> items,
+            System.Collections.ObjectModel.ObservableCollection<System.Collections.Generic.KeyValuePair<FrameworkElement, IViewModel>> items,
             OpenControls.Wpf.TabHeaderControl.TabHeaderControl tabHeaderControl,
-            UserControl selectedUserControl)
+            FrameworkElement selectedUserControl)
         {
             ContextMenu contextMenu = new ContextMenu();
             int i = 0;

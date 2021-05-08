@@ -13,8 +13,8 @@ namespace OpenControls.Wpf.DockManager
         Grid RootPane { get; set; }
         Grid RootGrid { get; }
         UIElementCollection Children { get; }
-        List<UserControl> LoadToolViews(ObservableCollection<IViewModel> viewModels);
-        List<UserControl> LoadDocumentViews(ObservableCollection<IViewModel> viewModels);
+        List<FrameworkElement> LoadToolViews(ObservableCollection<IViewModel> viewModels);
+        List<FrameworkElement> LoadDocumentViews(ObservableCollection<IViewModel> viewModels);
         void ActiveDocumentChanged(DocumentPaneGroup documentPaneGroup);
     }
 }

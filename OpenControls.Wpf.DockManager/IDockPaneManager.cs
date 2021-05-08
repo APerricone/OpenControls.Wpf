@@ -26,7 +26,7 @@ namespace OpenControls.Wpf.DockManager
 
         void UnpinToolPane(ToolPaneGroup toolPaneGroup, out UnpinnedToolData unpinnedToolData, out WindowLocation toolListBoxLocation);
 
-        void CreateDefaultLayout(List<UserControl> documentViews, List<UserControl> toolViews);
+        void CreateDefaultLayout(List<FrameworkElement> documentViews, List<FrameworkElement> toolViews);
 
         void ValidateDockPanes(Grid grid, Dictionary<IViewModel, List<string>> viewModels, Type paneType);
     }

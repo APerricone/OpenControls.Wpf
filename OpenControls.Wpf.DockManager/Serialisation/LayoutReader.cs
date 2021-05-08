@@ -65,7 +65,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
             window.Height = GetDoubleAttribute(xmlElement, "Height");
         }
 
-        private static void LoadTools(Dictionary<string, UserControl> viewsMap, XmlElement xmlToolPaneGroup, IViewContainer iViewContainer)
+        private static void LoadTools(Dictionary<string, FrameworkElement> viewsMap, XmlElement xmlToolPaneGroup, IViewContainer iViewContainer)
         {
             foreach (var xmlChild in xmlToolPaneGroup.ChildNodes)
             {
@@ -88,7 +88,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
             iViewContainer.SelectedIndex = int.Parse(GetStringAttribute(xmlToolPaneGroup, "selectedIndex"));
         }
 
-        private static void LoadDocuments(ILayoutFactory iLayoutFactory, Dictionary<string, UserControl> viewsMap, XmlElement xmlDocumentPaneGroup, IViewContainer iViewContainer)
+        private static void LoadDocuments(ILayoutFactory iLayoutFactory, Dictionary<string, FrameworkElement> viewsMap, XmlElement xmlDocumentPaneGroup, IViewContainer iViewContainer)
         {
             foreach (var xmlChild in xmlDocumentPaneGroup.ChildNodes)
             {
@@ -121,7 +121,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
             return Guid.NewGuid();
         }
 
-        private static void LoadUnPinnedToolDataNodes(ILayoutFactory iLayoutFactory, Dictionary<string, UserControl> viewsMap, WindowLocation windowLocation, XmlElement xmlParentElement)
+        private static void LoadUnPinnedToolDataNodes(ILayoutFactory iLayoutFactory, Dictionary<string, FrameworkElement> viewsMap, WindowLocation windowLocation, XmlElement xmlParentElement)
         {
             foreach (var xmlChildNode in xmlParentElement.ChildNodes)
             {
@@ -153,7 +153,7 @@ namespace OpenControls.Wpf.DockManager.Serialisation
             }
         }
 
-        public static void LoadNode(ILayoutFactory iLayoutFactory, Dictionary<string, UserControl> viewsMap, FrameworkElement rootFrameworkElement, FrameworkElement parentFrameworkElement, XmlNode xmlParentElement, bool isParentHorizontal)
+        public static void LoadNode(ILayoutFactory iLayoutFactory, Dictionary<string, FrameworkElement> viewsMap, FrameworkElement rootFrameworkElement, FrameworkElement parentFrameworkElement, XmlNode xmlParentElement, bool isParentHorizontal)
         {
             int row = 0;
             int rowIncrement = isParentHorizontal ? 2 : 0;

@@ -259,7 +259,10 @@ namespace OpenControls.Wpf.DockManager
         public void ExtractDocuments(IViewContainer sourceViewContainer)
         {
             System.Diagnostics.Trace.Assert(sourceViewContainer != null);
-
+            if(sourceViewContainer is InternalViewContainer && ((InternalViewContainer)sourceViewContainer).CheckCyclic(this))
+            {
+                return;
+            }
             while (true)
             {
                 UserControl userControl = sourceViewContainer.ExtractUserControl(0);

@@ -69,6 +69,16 @@ namespace OpenControls.Wpf.DockManager
             ElementExtracted?.Invoke(this, new Events.ElementExtractedEventArgs() { UserControl = userControl });
             return userControl;
         }
+        internal bool CheckCyclic(ViewContainer viewContainer)
+        {
+            if (_items.Count==0)
+            {
+                return false;
+            }
+            UserControl userControl = _items[0].Key;
+            IViewContainer parent = ((IViewContainer)userControl.Parent);
+            return parent == viewContainer;
+        }
 
         public IViewModel GetIViewModel(int index)
         {

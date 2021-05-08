@@ -17,41 +17,14 @@ namespace OpenControls.Wpf.DockManager
         {
             Tag = System.Guid.NewGuid();
             InitializeComponent();
-            StateChanged += MainWindowStateChangeRaised;
             //_parentContainer.Children.Add(iViewContainer as UIElement);
             //Grid.SetRow(iViewContainer as UIElement, 1);
             IViewContainer = iViewContainer;
             IViewContainer.FloatTabRequest += IViewContainer_FloatTabRequest;
             IViewContainer.TabClosed += IViewContainer_TabClosed;
             IViewContainer.TabMouseDown += IViewContainer_TabMouseDown;
-
-            _gridHeader.SetResourceReference(Grid.BackgroundProperty, "FloatingPaneTitleBarBackground");
-            _textBlockTitle.SetResourceReference(TextBlock.StyleProperty, "FloatingPaneTitleStyle");
             SetResourceReference(Window.BackgroundProperty, "FloatingPaneBackground");
-
             //(IViewContainer as ViewContainer).Margin = (Thickness)FindResource("FloatingPanePadding");
-
-            Style style = TryFindResource("FloatingPaneCloseButtonStyle") as Style;
-            if (style != null)
-            {
-                _buttonClose.Style = style;
-            }
-            style = TryFindResource("FloatingPaneMaximiseButtonStyle") as Style;
-            if (style != null)
-            {
-                _buttonMaximize.Style = style;
-            }
-            style = TryFindResource("FloatingPaneMinimizeButtonStyle") as Style;
-            if (style != null)
-            {
-                _buttonMinimize.Style = style;
-            }
-            style = TryFindResource("FloatingPaneRestoreButtonStyle") as Style;
-            if (style != null)
-            {
-                _buttonRestore.Style = style;
-            }
-
             PreviewMouseDown += FloatingPane_PreviewMouseDown;
         }
 
@@ -121,23 +94,6 @@ namespace OpenControls.Wpf.DockManager
         private void CommandBinding_Executed_Close(object sender, ExecutedRoutedEventArgs e)
         {
             SystemCommands.CloseWindow(this);
-        }
-
-        // State change
-        private void MainWindowStateChangeRaised(object sender, EventArgs e)
-        {
-            if (WindowState == WindowState.Maximized)
-            {
-                MainWindowBorder.BorderThickness = new Thickness(8);
-                _buttonRestore.Visibility = Visibility.Visible;
-                _buttonMaximize.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                MainWindowBorder.BorderThickness = new Thickness(0);
-                _buttonRestore.Visibility = Visibility.Collapsed;
-                _buttonMaximize.Visibility = Visibility.Visible;
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

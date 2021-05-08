@@ -11,17 +11,22 @@ namespace OpenControls.Wpf.DockManager
         {
             InitializeComponent();
         }
-        const float _percentSelection = 0.1f;
+        const double _percentSelection = 0.1;
+        const double _percentOutside = 0.05;
         public WindowLocation TrySelectIndicator(Point cursorPositionOnScreen)
         {
             Point localPoint = PointFromScreen(cursorPositionOnScreen);
-            if (localPoint.X < Width * _percentSelection)
+            double xMarginInside = Width * _percentSelection;
+            double xMarginOutside = -Width * _percentOutside;
+            double yMarginInside = Height * _percentSelection;
+            double yMarginOutside = -Height * _percentOutside;
+            if (localPoint.X < xMarginInside && localPoint.X > xMarginOutside)
                 return WindowLocation.LeftSide;
-            if (localPoint.X > Width * (1 - _percentSelection))
+            if (localPoint.X-Width < xMarginInside && localPoint.X-Width > xMarginOutside)
                 return WindowLocation.RightSide;
-            if (localPoint.Y < Height * _percentSelection)
+            if (localPoint.Y < yMarginInside && localPoint.Y > yMarginOutside)
                 return WindowLocation.TopSide;
-            if (localPoint.Y > Height * (1 - _percentSelection))
+            if (localPoint.Y-Height < yMarginInside && localPoint.Y - Height > yMarginOutside)
                 return WindowLocation.BottomSide;
             return WindowLocation.None;
         }

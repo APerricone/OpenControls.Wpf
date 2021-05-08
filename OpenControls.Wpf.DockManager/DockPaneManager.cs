@@ -140,6 +140,10 @@ namespace OpenControls.Wpf.DockManager
             }
 
             int index = selectedTabOnly ? dockPane.IViewContainer.SelectedIndex : 0;
+            ListBox listBox = ((ViewContainer)dockPane.IViewContainer).TabHeaderControl.ListBox;
+            var currItem = listBox.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
+            floatingPane.Width = currItem.ActualWidth;
+            floatingPane.Height = currItem.ActualHeight;
             while (true)
             {
                 UserControl userControl = dockPane.IViewContainer.GetUserControl(index);
@@ -152,8 +156,12 @@ namespace OpenControls.Wpf.DockManager
 
                 if (selectedTabOnly)
                 {
+                    floatingPane.Title = dockPane.IViewContainer.Title;
                     floatingPane.IViewContainer.SelectedIndex = 0;
                     break;
+                } else
+                {
+                    floatingPane.Title = "...";
                 }
                 index++;
             }
@@ -172,8 +180,6 @@ namespace OpenControls.Wpf.DockManager
 
             floatingPane.Left = cursorPositionOnScreen.X - 30;
             floatingPane.Top = cursorPositionOnScreen.Y - 30;
-            floatingPane.Width = dockPane.ActualWidth;
-            floatingPane.Height = dockPane.ActualHeight;
         }
 
         private void DockPane_FloatTabRequest(object sender, EventArgs e)
